@@ -42,25 +42,35 @@ The system:
 
 ---
 
-## 📷 Screenshots
+
 
 ### 🏠 Home Page
-(Add screenshot here)
-
-### 🤖 Recommendation Section
-(Add screenshot here)
-
-### 🚗 Car Detail Page
-(Add screenshot here)
-
-### ⚖️ Compare Page
-(Add screenshot here)
+<img width="1395" height="886" alt="image" src="https://github.com/user-attachments/assets/05d29701-554b-48c1-8b0d-4b28bad456d5" />
 
 ---
+### 🤖 Recommendation Section
+<img width="1472" height="698" alt="image" src="https://github.com/user-attachments/assets/84419863-acfe-407a-822b-ecb22ec16446" />
 
+---
+### 🚗 Car Detail Page
+<img width="1117" height="748" alt="image" src="https://github.com/user-attachments/assets/4e2cefd9-438b-4b61-b94b-6500cea91718" />
+
+
+---
+ ###  💨   Quick Comparison Agent
+ <img width="607" height="353" alt="image" src="https://github.com/user-attachments/assets/10df709d-8bfe-491c-a717-8abf94a34b8a" />
+
+---
+### ⚖️ Compare Page
+<img width="1235" height="857" alt="image" src="https://github.com/user-attachments/assets/785e9a62-6bc8-40a2-93b4-adb9d24b8db9" />
+
+
+---
+### 🎓 Licence
+MIT Licence
+
+---
 ## ⚡ Installation
-
-```bash
-npm install
-npm run dev
+```
+(https://car-app-tau-kohl.vercel.app/)
 ```
