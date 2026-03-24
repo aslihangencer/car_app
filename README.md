@@ -5,7 +5,7 @@ This is a full-stack web application that allows users to compare cars and recei
 
 The system simulates AI behavior using a custom rule-based scoring algorithm — no external AI APIs required.
 
----
+
 
 ## 🚀 Features
 
@@ -17,7 +17,6 @@ The system simulates AI behavior using a custom rule-based scoring algorithm —
 - ❤️ Favorite cars (saved locally)  
 - 📱 Fully responsive modern UI  
 
----
 
 ## 🧠 How It Works
 
@@ -32,7 +31,7 @@ The system:
 3. Selects top matches  
 4. Generates human-like explanations  
 
----
+
 
 ## 🛠 Tech Stack
 
@@ -72,5 +71,5 @@ MIT Licence
 ---
 ## ⚡ Installation
 ```
-(https://car-app-tau-kohl.vercel.app/)
+car-app-tau-kohl.vercel.app
 ```
