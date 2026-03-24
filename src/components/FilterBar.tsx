@@ -1,68 +1,104 @@
 import React from 'react';
-import { FuelType, UsageType } from '../types';
+import { FuelType } from '../types';
 
 interface FilterBarProps {
     budget: number;
     setBudget: (val: number) => void;
-    fuelType: FuelType;
-    setFuelType: (val: FuelType) => void;
-    usage: UsageType;
-    setUsage: (val: UsageType) => void;
-    onSearch: (e: React.FormEvent) => void;
+    fuelType: string;
+    setFuelType: (val: string) => void;
+    brand: string;
+    setBrand: (val: string) => void;
+    segment: string;
+    setSegment: (val: string) => void;
+    brands: string[];
+    segments: string[];
 }
 
-export default function FilterBar({ budget, setBudget, fuelType, setFuelType, usage, setUsage, onSearch }: FilterBarProps) {
+export default function FilterBar({ 
+    budget, setBudget, 
+    fuelType, setFuelType, 
+    brand, setBrand, 
+    segment, setSegment,
+    brands, segments
+}: FilterBarProps) {
     return (
-        <form
-            onSubmit={onSearch}
-            className="bg-slate-800/80 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6 shadow-2xl flex flex-col md:flex-row gap-6 items-end w-full max-w-5xl mx-auto -translate-y-12"
-        >
-            <div className="flex-1 w-full space-y-2">
-                <label className="text-xs font-bold text-slate-400 uppercase tracking-wider block">Maksimum Bütçe (₺)</label>
-                <input
-                    type="number"
-                    value={budget}
-                    onChange={e => setBudget(Number(e.target.value))}
-                    className="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-4 py-3 text-slate-100 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
-                    min="1000"
-                    step="500"
-                />
-            </div>
+        <div className="bg-slate-900/80 backdrop-blur-2xl border border-slate-800/50 rounded-3xl p-8 shadow-2xl w-full max-w-6xl mx-auto -translate-y-16 relative z-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 items-end">
+                <div className="space-y-3">
+                    <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] block ml-1">Maksimum Bütçe (₺)</label>
+                    <div className="relative group">
+                        <input
+                            type="number"
+                            value={budget || ''}
+                            onChange={e => setBudget(Number(e.target.value))}
+                            placeholder="Limitsiz"
+                            className="w-full bg-slate-950/50 border border-slate-800 rounded-2xl px-5 py-3.5 text-slate-100 focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all text-sm font-mono group-hover:border-slate-700"
+                            min="0"
+                            step="100000"
+                        />
+                        <div className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-600 text-[10px] font-bold">TL</div>
+                    </div>
+                </div>
 
-            <div className="flex-1 w-full space-y-2">
-                <label className="text-xs font-bold text-slate-400 uppercase tracking-wider block">Tercih Edilen Yakıt</label>
-                <select
-                    value={fuelType}
-                    onChange={e => setFuelType(e.target.value as FuelType)}
-                    className="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-4 py-3 text-slate-100 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all appearance-none"
-                >
-                    <option value="hepsi">Farketmez (Hepsi)</option>
-                    <option value="benzin">Benzin</option>
-                    <option value="dizel">Dizel</option>
-                    <option value="elektrik">Elektrikli</option>
-                    <option value="hibrit">Hibrit</option>
-                </select>
-            </div>
+                <div className="space-y-3">
+                    <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] block ml-1">Marka</label>
+                    <div className="relative group">
+                        <select
+                            value={brand}
+                            onChange={e => setBrand(e.target.value)}
+                            className="w-full bg-slate-950/50 border border-slate-800 rounded-2xl px-5 py-3.5 text-slate-100 focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all text-sm appearance-none cursor-pointer group-hover:border-slate-700"
+                        >
+                            <option value="Tümü">Tüm Markalar</option>
+                            {brands.sort().map(b => (
+                                <option key={b} value={b}>{b}</option>
+                            ))}
+                        </select>
+                        <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500">
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                    </div>
+                </div>
 
-            <div className="flex-1 w-full space-y-2">
-                <label className="text-xs font-bold text-slate-400 uppercase tracking-wider block">Temel Kullanım</label>
-                <select
-                    value={usage}
-                    onChange={e => setUsage(e.target.value as UsageType)}
-                    className="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-4 py-3 text-slate-100 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all appearance-none"
-                >
-                    <option value="karma">Karma (Şehir İçi & Uzun Yol)</option>
-                    <option value="şehir içi">Sadece Şehir İçi</option>
-                    <option value="uzun yol">Uzun Yolculuklar</option>
-                </select>
-            </div>
+                <div className="space-y-3">
+                    <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] block ml-1">Segment</label>
+                    <div className="relative group">
+                        <select
+                            value={segment}
+                            onChange={e => setSegment(e.target.value)}
+                            className="w-full bg-slate-950/50 border border-slate-800 rounded-2xl px-5 py-3.5 text-slate-100 focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all text-sm appearance-none cursor-pointer group-hover:border-slate-700"
+                        >
+                            <option value="Tümü">Tüm Segmentler</option>
+                            {segments.sort().map(s => (
+                                <option key={s} value={s}>{s}</option>
+                            ))}
+                        </select>
+                        <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500">
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                    </div>
+                </div>
 
-        <button
-                type="submit"
-                className="w-full md:w-auto px-8 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold rounded-xl shadow-lg shadow-blue-900/50 hover:shadow-blue-900/80 hover:-translate-y-1 transition-all duration-300"
-            >
-                Eşleşme Bul
-            </button>
-        </form>
+                <div className="space-y-3">
+                    <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] block ml-1">Yakıt Tipi</label>
+                    <div className="relative group">
+                        <select
+                            value={fuelType}
+                            onChange={e => setFuelType(e.target.value)}
+                            className="w-full bg-slate-950/50 border border-slate-800 rounded-2xl px-5 py-3.5 text-slate-100 focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all text-sm appearance-none cursor-pointer group-hover:border-slate-700"
+                        >
+                            <option value="hepsi">Farketmez</option>
+                            <option value="Petrol">Benzin</option>
+                            <option value="Diesel">Dizel</option>
+                            <option value="Electric">Elektrikli</option>
+                            <option value="Hybrid">Hibrit</option>
+                            <option value="Mild Hybrid">Yarı Hibrit</option>
+                        </select>
+                        <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500">
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     );
 }

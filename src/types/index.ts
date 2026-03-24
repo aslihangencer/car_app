@@ -27,9 +27,21 @@ export interface Car {
     torque?: number;
     name?: string;
     segment?: string;
+    transmission?: string;
+    driveType?: string;
+    acceleration?: number; // 0-100 km/h
+    topSpeed?: number;
+    baggageVolume?: number;
+    safetyRating?: number; // 0-5
     fuelConsumption?: { city: number; highway: number };
     consumption?: { city: number; highway: number };
     strengths?: string[];
+    features?: string[];
+    evDetails?: {
+        range: number;
+        batteryCapacity: number;
+        chargeTime: number;
+    };
     aiImagePrompts?: { 
         front: string; 
         back?: string; 

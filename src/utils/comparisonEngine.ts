@@ -7,15 +7,18 @@ export interface EngineScore {
 }
 
 export const calculateScores = (car: Car): EngineScore => {
-    // Güç Skoru: HP ve Tork (Torque) verilerine dayalı Hibrit Güç Mantığı
-    // Elektrikli araçların yüksek tork avantajını puana harmanlar.
-    const assumedTorque = car.torque || (car.hp * 1.5);
-    const powerScore = Math.max(0, Math.min(100, (car.hp / 4) + (assumedTorque / 6) + 15));
+    // Performans Skoru: HP, Hızlanma ve Maks Hız kombinasyonu
+    const accelBonus = car.acceleration ? (15 - Math.min(15, car.acceleration)) * 3 : 0;
+    const speedBonus = car.topSpeed ? (car.topSpeed / 3.5) : 0;
+    const powerScore = Math.max(0, Math.min(100, (car.hp / 6) + accelBonus + (speedBonus / 10) + 15));
 
-    // Verimlilik Skoru (Düşük motor gücü veya Elektrik avantajı)
-    let efficiencyBase = 100 - (car.engineSize / 40);
-    if (car.fuelType === 'Electric') efficiencyBase += 20;
-    if (car.fuelType === 'Hybrid') efficiencyBase += 10;
+    // Verimlilik Skoru: FuelType, EngineSize ve EV verileri
+    let efficiencyBase = 100 - (car.engineSize / 35);
+    if (car.fuelType === 'Electric') {
+        efficiencyBase = 85 + (car.evDetails?.range ? car.evDetails.range / 20 : 0);
+    } else if (car.fuelType === 'Hybrid' || car.fuelType === 'Mild Hybrid') {
+        efficiencyBase += 15;
+    }
     const efficiencyScore = Math.max(0, Math.min(100, efficiencyBase));
 
     return {
@@ -182,13 +185,12 @@ export const generateGlobalInsights = (cars: Car[]) => {
 };
 
 export const getRadarData = (car: Car) => {
-    // 0-100 arası 5 eksenli puanlama mantığı
+    // 0-100 arası 5 eksenli bilimsel puanlama mantığı
     return [
-        { subject: 'Performans', A: Math.max(0, Math.min(100, (car.hp / 2.5))), fullMark: 100 },
-        { subject: 'Ekonomi', A: car.fuelType === 'Electric' ? 95 : Math.max(0, 100 - (car.engineSize / 40)), fullMark: 100 },
-        { subject: 'Teknoloji', A: car.year >= 2023 ? 90 : 70, fullMark: 100 },
-        // TL bazında (Milyonlar) Fiyat algoritmamıza daha uygun bir Maliyet hesabı (düşük fiyat = yüksek puan):
-        { subject: 'Maliyet', A: Math.max(0, Math.min(100, 100 - ((car.price - 500000) / 30000))), fullMark: 100 },
-        { subject: 'Hız', A: Math.max(0, Math.min(100, (car.hp / 3) + 20)), fullMark: 100 },
+        { subject: 'Performans', A: Math.max(0, Math.min(100, (car.hp / 5) + (15 - (car.acceleration || 10)) * 4 + 10)), fullMark: 100 },
+        { subject: 'Verimlilik', A: car.fuelType === 'Electric' ? 98 : Math.max(0, 100 - (car.engineSize / 35)), fullMark: 100 },
+        { subject: 'Hacim', A: Math.max(0, Math.min(100, (car.baggageVolume || 400) / 9 + 40)), fullMark: 100 },
+        { subject: 'Güvenlik', A: (car.safetyRating || 3) * 20, fullMark: 100 },
+        { subject: 'Teknoloji', A: car.fuelType === 'Electric' || car.year >= 2024 ? 95 : 75, fullMark: 100 },
     ];
 };
